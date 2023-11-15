@@ -1,0 +1,163 @@
+# Creamos la clase Nodo
+class Nodo:
+    def __init__(self, dato):
+        self.dato = dato
+        self.siguiente = None
+        self.anterior = None
+
+# Creamos la clase de la lista 
+class ListaCircular:
+    def __init__(self):
+        self.cabeza = None
+        self.cola = None
+    
+    def agregar_nodo(self, dato):
+        #creamos un objeto nodo
+        nuevo_nodo = Nodo(dato)
+        #si el primer nodo esta vacio
+        if self.cabeza is None:
+            #inicio es igual al nuevo nodo
+            self.cabeza = nuevo_nodo
+            #fin es igual al nuevo nodo
+            self.cola = nuevo_nodo
+            #y el nuevo nodo en su campo siguiente y anterior se apunta a si mismo
+            nuevo_nodo.siguiente = nuevo_nodo
+            nuevo_nodo.anterior = nuevo_nodo
+        #si ya hay mas nodos entonces
+        else:
+            #el campo anterior de el nuevo nodo apunta a la cola-fin
+            nuevo_nodo.anterior = self.cola
+            #luego el siguiente de la cola-fin apunta al nuevo para que esten doblemente enlazados
+            self.cola.siguiente = nuevo_nodo
+            #y otorgamos el fin a el nuevo nodo
+            self.cola = nuevo_nodo
+            #ahora el siguiente de el nuevo nodo es el inicio
+            nuevo_nodo.siguiente = self.cabeza
+            # y el anterior de el inicio apunta a el fin
+            self.cabeza.anterior = self.cola
+
+    def imprimir_lista(self):
+        actual = self.cabeza
+        while actual is not None:
+            #aqui tenemos que poner una condicion para que el print no se ejecute infinitamente ya que es un circulo
+            #por lo tanto si actual es igual al fin, imprimimos y regresamos
+            if actual == self.cola:
+                print(actual.dato, "<->", self.cabeza.dato, end=" ")
+                return
+            #sino vamos imprimiento todos
+            else:
+                print(actual.dato, "<->", end=" ")
+            actual = actual.siguiente
+        print("None")
+
+    def buscar_valor(self, dato):
+        actual = self.cabeza
+        #aqui no funciona la condicion "is not none" porque en una lista circular nunca se va apuntar a null
+        while True:
+            #en esta condicion buscamos datos por dato y si es lo imprimimos y regresamos
+            if actual.dato == dato:
+                print("\nEl elemento se encuentra en la lista")
+                return
+            #nos aseguramos de pasar al siguiente y si el siguiente es el inicio significa que ya la recorrimos y no se encontro
+            actual = actual.siguiente
+            if actual == self.cabeza:
+                break
+        print("\nEl elemento no se encuentra en la lista")
+
+
+    def eliminar_valor(self, dato):
+    #nos ubicamos al inicio de la lista
+        actual = self.cabeza
+        # recorremos la lista en un bucle mientras el nodo actual no sea nulo
+        while actual is not None:
+            # cerificamos si el valor en el nodo actual es igual al valor que deseamos eliminar
+            if actual.dato == dato:
+                # comprobamos si el nodo actual tiene un nodo anterior (no es el primer nodo)
+                if actual.anterior is not None:
+                    # ajusto los punteros del nodo anterior para omitir el nodo actual entonces el anterior en su campo siguiente apunta a el nodo siguiente de el actual
+                    actual.anterior.siguiente = actual.siguiente
+                    # ajusto los punteros del nodo siguiente para omitir el nodo actual entonces el siguiente en su campo anterior apunta al nodo anterior de el actual
+                    actual.siguiente.anterior = actual.anterior
+                    # comprobamos si el nodo actual es la cabeza de la lista
+                    if actual == self.cabeza:
+                        # si es la cabeza, actualizamos la cabeza para que apunte al siguiente nodo
+                        self.cabeza = actual.siguiente
+                    # comprobamos si el nodo actual es la cola de la lista
+                    if actual == self.cola:
+                        # si es la cola, actualizamos la cola para que apunte al nodo anterior
+                        self.cola = actual.anterior
+                # imprimimos un mensaje para indicar que el elemento se ha eliminado con éxito
+                print("\nEl elemento se ha eliminado")
+                # regresamos de la función porque ya hemos realizado la eliminación
+                return
+            # si el nodo actual no contiene el valor deseado, avanzamos al siguiente nodo
+            actual = actual.siguiente
+        # si el bucle completa su recorrido y no encuentra el valor deseado, imprimimos un mensaje indicando que no se encontró
+        print("\nEl elemento no se encuentra en la lista")
+
+
+    def modificar_valor(self, dato):
+        #esto es lo mismo que los otros
+        actual = self.cabeza
+        while actual is not None:
+            if actual.dato == dato:
+                modificacion = int(input("Ingresa el nuevo valor: "))
+                actual.dato = modificacion
+                print(f"\nEl número {dato} se ha modificado por el {modificacion}")
+                return
+            actual = actual.siguiente
+        print("\nEl elemento no se encuentra en la lista")
+
+    # def acomodar_quicksort(self):
+    #     lista = []
+    #     actual = self.cabeza
+    #     while actual is not None:
+    #         lista.append(actual.dato)
+    #         actual = actual.siguiente
+        
+    #     lista = self.quicksort(lista)
+        
+    #     self.cabeza = None
+    #     self.cola = None
+    #     for dato in lista:
+    #         self.agregar_nodo(dato)
+
+    # def quicksort(self, array):
+    #     if len(array) <= 1:
+    #         return array
+    #     pivote = array[-1]
+    #     izquierda = []
+    #     derecha = []
+    #     for i in array[:-1]:
+    #         if i <= pivote:
+    #             izquierda.append(i)
+    #         else:
+    #             derecha.append(i)
+    #     quick_izquierda = self.quicksort(izquierda)
+    #     quick_derecha = self.quicksort(derecha)
+    #     return quick_izquierda + [pivote] + quick_derecha
+
+if __name__ == "__main__":
+    lista = ListaCircular()
+    while True:
+        seleccion = int(input("\n¿Qué deseas hacer?\n1.-Agregar Nodo\n2.-Buscar Valor\n3.-Eliminar Valor\n4.-Modificar valor\n5.-Mostrar\n6.-Ordenar\n7.-Salir\n"))
+        if seleccion == 1:
+            lista.agregar_nodo(int(input("Qué valor deseas agregar: ")))
+            print("Lista doblemente enlazada: ", end="")
+            lista.imprimir_lista()
+        elif seleccion == 2:
+            lista.buscar_valor(int(input("Qué valor deseas buscar: ")))
+        elif seleccion == 3:
+            lista.eliminar_valor(int(input("Qué valor deseas eliminar: ")))
+        elif seleccion == 4:
+            lista.modificar_valor(int(input("Qué valor deseas modificar: ")))
+        elif seleccion == 5:
+            lista.imprimir_lista()
+        elif seleccion ==6:
+            print("\nNo sirve")
+            # lista.acomodar_quicksort()
+            # print("\nLista acomodada con Quicksort: ", end="")
+            # lista.imprimir_lista()
+        elif seleccion==7:
+            print("\nSaliendo...")
+            break
