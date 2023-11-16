@@ -66,10 +66,6 @@ def aleatorio():
             numero=random.randint(1,100)
             arbol.insertar(numero)
 
-
-
-
-
 if __name__ == "__main__":
     arbol = ArbolBinario()
     while True:
