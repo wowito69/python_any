@@ -1,8 +1,11 @@
 import math
-
+#este algoritmo necesita de una lista previamente ordenada 
+#asi que aqui la definimos
 array = [17, 26, 33, 42, 53, 60, 60, 71, 89, 98]
 
+#nuestra funcion principal que recibe la lista y la busqueda
 def busqueda_binaria(array, busqueda):
+    
     if not array:
         print(f"El valor {busqueda} no se encuentra en la lista.")
         return
