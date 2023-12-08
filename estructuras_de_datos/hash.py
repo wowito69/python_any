@@ -143,6 +143,7 @@ class ListaHash:
             else:
                 actual=actual.siguiente
         lista_abajo.imprimir_lista_hash()
+        
 if __name__=="__main__":
     while True:
         opc=int(input("Bienvenido\n¿Quieres registrarte?\n1.-Si\n2.-No\n3.-Salir"))
