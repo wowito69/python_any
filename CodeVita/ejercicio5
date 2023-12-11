@@ -1,0 +1,27 @@
+import math
+
+def encontrar_valle_mas_ancho(n, A, B):
+    derivada = lambda x: sum(A[i] * math.cos(A[i] * x + B[i]) for i in range(n))
+    
+    puntos_cero = []
+    for i in range(1, 2 * n):
+        if derivada(i) == 0:
+            puntos_cero.append(i)
+
+    max_ancho = 0
+    valle_mas_ancho = 0
+
+    for i in range(len(puntos_cero) - 1):
+        ancho = puntos_cero[i + 1] - puntos_cero[i]
+        if ancho > max_ancho:
+            max_ancho = ancho
+            valle_mas_ancho = i + 1
+
+    return valle_mas_ancho + 1  
+
+n = int(input())
+A = list(map(int, input().split()))
+B = list(map(int, input().split()))
+
+resultado = encontrar_valle_mas_ancho(n, A, B)
+print(resultado)

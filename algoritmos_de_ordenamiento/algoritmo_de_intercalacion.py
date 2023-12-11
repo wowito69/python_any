@@ -34,7 +34,7 @@ if __name__=="__main__":
         lista1=[]
         lista2=[]
         #rellenamos nuestras listas con numeros aleatorios
-        for i in range(20):
+        for i in range(5):
             lista1.append(random.randint(1,40))
             lista2.append(random.randint(1,101))
         #ordenamos las dos listas con tu algoritmo de ordenamiendo de confianza
